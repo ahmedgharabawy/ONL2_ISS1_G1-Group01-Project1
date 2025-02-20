@@ -1,1 +1,92 @@
-
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_Alex_VM01_name": {
+            "defaultValue": "Alex-VM01",
+            "type": "String"
+        },
+        "disks_Alex_VM01_OsDisk_1_3fdf53ce72ed4f0a8a8f2c35126cc7a9_externalid": {
+            "defaultValue": "/subscriptions/1b5007c3-3a75-432c-8038-92e98bd4b6ee/resourceGroups/Ahmed-gharabawy/providers/Microsoft.Compute/disks/Alex-VM01_OsDisk_1_3fdf53ce72ed4f0a8a8f2c35126cc7a9",
+            "type": "String"
+        },
+        "networkInterfaces_alex_vm01251_externalid": {
+            "defaultValue": "/subscriptions/1b5007c3-3a75-432c-8038-92e98bd4b6ee/resourceGroups/Ahmed-gharabawy/providers/Microsoft.Network/networkInterfaces/alex-vm01251",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2024-07-01",
+            "name": "[parameters('virtualMachines_Alex_VM01_name')]",
+            "location": "westeurope",
+            "tags": {
+                "Ahmed": "work"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_DS1_v2"
+                },
+                "additionalCapabilities": {
+                    "hibernationEnabled": false
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsDesktop",
+                        "offer": "Windows-10",
+                        "sku": "win10-22h2-pro-g2",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('virtualMachines_Alex_VM01_name'), '_OsDisk_1_3fdf53ce72ed4f0a8a8f2c35126cc7a9')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_Alex_VM01_OsDisk_1_3fdf53ce72ed4f0a8a8f2c35126cc7a9_externalid')]"
+                        },
+                        "deleteOption": "Delete",
+                        "diskSizeGB": 127
+                    },
+                    "dataDisks": [],
+                    "diskControllerType": "SCSI"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_Alex_VM01_name')]",
+                    "adminUsername": "LAMAR",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true,
+                        "patchSettings": {
+                            "patchMode": "AutomaticByOS",
+                            "assessmentMode": "ImageDefault",
+                            "enableHotpatching": false
+                        }
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_alex_vm01251_externalid')]",
+                            "properties": {
+                                "deleteOption": "Delete"
+                            }
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                },
+                "licenseType": "Windows_Client"
+            }
+        }
+    ]
+}
