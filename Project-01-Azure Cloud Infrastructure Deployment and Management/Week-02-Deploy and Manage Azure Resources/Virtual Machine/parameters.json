@@ -1,1 +1,15 @@
-
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_Alex_VM01_name": {
+            "value": null
+        },
+        "disks_Alex_VM01_OsDisk_1_3fdf53ce72ed4f0a8a8f2c35126cc7a9_externalid": {
+            "value": null
+        },
+        "networkInterfaces_alex_vm01251_externalid": {
+            "value": null
+        }
+    }
+}
